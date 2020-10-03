@@ -9,6 +9,7 @@ public class GameScore : MonoBehaviour
    
     public Text Textoftime;
     public GameObject player;
+    public bool LV1=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,25 +21,26 @@ public class GameScore : MonoBehaviour
     {
         Textoftime.text = "Time : " + SingletonGameManager.Instance.TimeSSS.ToString("0") + " Left";
            SingletonGameManager.Instance.TimeSSS = SingletonGameManager.Instance.TimeSSS - Time.deltaTime;
-        SingletonGameManager.Instance.GameScore = (int)SingletonGameManager.Instance.TimeSSS * 1000;
-        if ( SingletonGameManager.Instance.gameStart )
-        {
-            SingletonGameManager.Instance.TimeSSS = 30;
+        SingletonGameManager.Instance.GameScore = (int)SingletonGameManager.Instance.TimeSSS * 1000 + SingletonGameManager.Instance.GameScoreTotal;
 
+
+        
 
             if (SingletonGameManager.Instance.TimeSSS <= 0)
             {
-            SingletonGameManager.Instance.gameStart = false;
-                SceneManager.LoadScene("SceneMainMenu");
-            }
+       
+                SceneManager.LoadScene("StageSelect");
+            SingletonGameManager.Instance.TimeSSS = 30;
+        }
                
 
-        }
+        
         if (player.transform.position.y < -10)
         {
-            SingletonGameManager.Instance.gameStart = false;
-            SceneManager.LoadScene("SceneMainMenu");
+         
+            SceneManager.LoadScene("StageSelect");
             SingletonGameManager.Instance.NumberOfLose += 1;
+            SingletonGameManager.Instance.TimeSSS = 30;
         }
     }
 
@@ -47,7 +49,10 @@ public class GameScore : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             SingletonGameManager.Instance.NumberOfWin += 1;
+            if(LV1)
             SceneManager.LoadScene("Stage2");
+            else
+                SceneManager.LoadScene("SceneMainMenu");
             SingletonGameManager.Instance.GameScoreTotal += SingletonGameManager.Instance.GameScore;
             SingletonGameManager.Instance.TimeSSS = 30;
         }

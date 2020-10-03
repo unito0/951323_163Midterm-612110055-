@@ -23,7 +23,10 @@ public class Spawn : MonoBehaviour
         {
             timeSS = 0;
             int r=   Random.Range(0, itemPrefabs.Length);
-            Instantiate(itemPrefabs[r]);
+          
+
+
+            Instantiate(itemPrefabs[r], gameObject.transform);
         }
     }
 }
